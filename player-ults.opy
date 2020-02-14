@@ -2,7 +2,7 @@
 
 @Rule "Set Initial Drop Timer"
 @Event global
-timeTillNextDrop = random.randint(15, 25)
+timeTillNextDrop = random.randint(5, 15)
 
 @Rule "Loop - Drop Timer Countdown"
 @Event global
@@ -30,7 +30,7 @@ if timeTillNextDrop <= 0:
     elif playerWithDrop.dropType == 11 or playerWithDrop.dropType == 12 or playerWithDrop.dropType == 13:
         bigMessage(playerWithDrop, "You have received drop 'deal triple damage', press 'interact' to use.")
 
-    timeTillNextDrop = random.randint(15, 25)
+    timeTillNextDrop = random.randint(5, 15)
 
 @Rule "Activate Drop"
 @Event eachPlayer
