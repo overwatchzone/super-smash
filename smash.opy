@@ -8,12 +8,15 @@
 #!declareGlobal shrinkCircle 5
 #!declareGlobal circleEffectId 6
 #!declareGlobal circleShiftAmount 7
+#!declareGlobal kbReductionOrbLocations 8
 
 #!declarePlayer knockback 0
 #!declarePlayer lastAttacker 1
 #!declarePlayer hasDrop 2
 #!declarePlayer dropType 3
 #!declarePlayer dropTargetPlayer 4
+#!declarePlayer latestScore 5
+#!declarePlayer dropSwitchHero 6
 
 @Rule "Super Smash by Zencep#1489 | Join me on Discord: bit.ly/TZDISCORD | Original Settings by Zomg"
 @Event global
@@ -26,3 +29,4 @@ disableScoring()
 import "global.opy"
 import "player.opy"
 import "player-ults.opy"
+import "environment.opy"

@@ -17,7 +17,7 @@ if timeTillNextDrop > 0:
 if timeTillNextDrop <= 0:
     playerWithDrop = random.choice(getLivingPlayers(Team.ALL))
     playerWithDrop.hasDrop = true
-    playerWithDrop.dropType = random.randint(1, 13)
+    playerWithDrop.dropType = random.randint(1, 16)
 
     if playerWithDrop.dropType == 1 or playerWithDrop.dropType == 2 or playerWithDrop.dropType == 8:
         bigMessage(playerWithDrop, "You have received drop 'freeze everyone close to you', press 'interact' to use.")
@@ -29,6 +29,10 @@ if timeTillNextDrop <= 0:
         bigMessage(playerWithDrop, "You have received drop 'teleport everyone back to spawn', press 'interact' to use.")
     elif playerWithDrop.dropType == 11 or playerWithDrop.dropType == 12 or playerWithDrop.dropType == 13:
         bigMessage(playerWithDrop, "You have received drop 'deal triple damage', press 'interact' to use.")
+    elif playerWithDrop.dropType == 14:
+        bigMessage(playerWithDrop, "You have received drop 'switch hero', press 'interact' to go back to hero selection.")
+    elif playerWithDrop.dropType == 15 or playerWithDrop.dropType == 16:
+        bigMessage(playerWithDrop, "You have received drop 'root yourself', press 'interact' to use.")
 
     timeTillNextDrop = random.randint(5, 15)
 
@@ -53,7 +57,16 @@ if eventPlayer.hasDrop and eventPlayer.isHoldingButton(Button.INTERACT):
         eventPlayer.setDamageDealt(350)
         wait(8, Wait.IGNORE_CONDITION)
         eventPlayer.setDamageDealt(150)
-
+    elif playerWithDrop.dropType == 14:
+        eventPlayer.dropSwitchHero = true
+        eventPlayer.latestScore = eventPlayer.getScore()
+        eventPlayer.setAllowedHeroes(getAllHeroes().exclude(eventPlayer.getCurrentHero()))
+        wait(0.250, Wait.IGNORE_CONDITION)
+        eventPlayer.resetHeroAvailability()
+    elif playerWithDrop.dropType == 15 or playerWithDrop.dropType == 16:
+        eventPlayer.setStatusEffect(null, Status.ROOTED, 15)
+        bigMessage(eventPlayer, "You're now rooted for 15 seconds, enjoy!")
+        bigMessage(getLivingPlayers(Team.ALL).exclude(eventPlayer), "{} is now rooted, FOCUS THEM!".format(eventPlayer))
     
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.PURPLE, eventPlayer.getPosition(), 10)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.PURPLE, eventPlayer.getPosition(), 200)

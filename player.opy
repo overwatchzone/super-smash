@@ -19,9 +19,12 @@ if eventPlayer.hasSpawned():
     if getTotalTimeElapsed() > 60:
         eventPlayer.setScore(0)
         kill(eventPlayer, null)
+    elif eventPlayer.dropSwitchHero == true and eventPlayer.latestScore > 0:
+        eventPlayer.setScore(eventPlayer.latestScore)
     else:
         eventPlayer.setScore(5)
     eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 4)
+    eventPlayer.dropSwitchHero = false
     eventPlayer.enableDeathSpectateAllPlayers()
     eventPlayer.enableDeathSpectateTargetHud()
 
@@ -37,10 +40,6 @@ victim.knockback += (eventDamage / 3)
 @Rule "On Player Leaving Sphere"
 @Event eachPlayer
 if distance(eventPlayer, boundaryCenter) > boundaryRadius and eventPlayer.lastAttacker != null:
-    eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 1)
-    eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 1)
-    eventPlayer.teleport(boundaryCenter)
-    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     kill(eventPlayer, eventPlayer.lastAttacker)
     eventPlayer.lastAttacker = null
     destroyInWorldText(getLastCreatedText())
