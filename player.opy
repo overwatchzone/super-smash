@@ -49,7 +49,7 @@ hudText(eventPlayer, "Have Drop: {}".format(eventPlayer.hasDrop), null, null, Po
 
 @Rule "After Player Dies"
 @Event playerDied
-wait(1, Wait.IGNORE_CONDITION)
+wait(3, Wait.IGNORE_CONDITION)
 victim.setScore(victim.getScore() - 1)
 if victim.getScore() > 0:
     victim.respawn()
