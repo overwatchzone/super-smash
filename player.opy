@@ -29,7 +29,7 @@ if eventPlayer.hasSpawned():
 @Event playerTookDamage
 victim.lastAttacker = attacker
 victim.applyImpulse(vectorTowards(attacker, victim) + (Vector.UP * (victim.knockback / 100)), (victim.knockback / 10) * (eventDamage / 50), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
-victim.knockback += (eventDamage / 5)
+victim.knockback += (eventDamage / 3)
 #createEffect(getAllPlayers(), Effect.CLOUD, Color.AQUA, victim, 5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
 #wait(0.25, Wait.IGNORE_CONDITION)
 #destroyEffect(getLastCreatedEntity())
