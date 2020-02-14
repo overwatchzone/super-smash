@@ -17,7 +17,7 @@ if timeTillNextDrop > 0:
 if timeTillNextDrop <= 0:
     playerWithDrop = random.choice(getLivingPlayers(Team.ALL))
     playerWithDrop.hasDrop = true
-    playerWithDrop.dropType = random.randint(1, 10)
+    playerWithDrop.dropType = random.randint(1, 13)
 
     if playerWithDrop.dropType == 1 or playerWithDrop.dropType == 2 or playerWithDrop.dropType == 8:
         bigMessage(playerWithDrop, "You have received drop 'freeze everyone close to you', press 'interact' to use.")
@@ -27,6 +27,8 @@ if timeTillNextDrop <= 0:
         bigMessage(playerWithDrop, "You have received drop 'burn whoever your looking at', press 'interact' to use.")
     elif playerWithDrop.dropType == 9 or playerWithDrop.dropType == 10:
         bigMessage(playerWithDrop, "You have received drop 'teleport everyone back to spawn', press 'interact' to use.")
+    elif playerWithDrop.dropType == 11 or playerWithDrop.dropType == 12 or playerWithDrop.dropType == 13:
+        bigMessage(playerWithDrop, "You have received drop 'deal triple damage', press 'interact' to use.")
 
     timeTillNextDrop = random.randint(15, 25)
 
@@ -46,6 +48,12 @@ if eventPlayer.hasDrop and eventPlayer.isHoldingButton(Button.INTERACT):
     elif playerWithDrop.dropType == 9 or playerWithDrop.dropType == 10:
         getLivingPlayers(Team.ALL).teleport(boundaryCenter)
         bigMessage(getLivingPlayers(Team.ALL), "{} has teleported everyone back to spawn point.".format(eventPlayer))
+    elif playerWithDrop.dropType == 11 or playerWithDrop.dropType == 12 or playerWithDrop.dropType == 13:
+        bigMessage(getLivingPlayers(Team.ALL), "{} has triple damage for 8 seconds! Watch out!.".format(eventPlayer))
+        eventPlayer.setDamageDealt(350)
+        wait(8, Wait.IGNORE_CONDITION)
+        eventPlayer.setDamageDealt(150)
+
     
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.PURPLE, eventPlayer.getPosition(), 10)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.PURPLE, eventPlayer.getPosition(), 200)
