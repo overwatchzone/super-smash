@@ -36,7 +36,7 @@ destroyEffect(getLastCreatedEntity())
 
 @Rule "On Player Leaving Sphere"
 @Event eachPlayer
-if distance(eventPlayer, boundaryCenter) > boundaryRadius:
+if distance(eventPlayer, boundaryCenter) > boundaryRadius and eventPlayer.isAlive():
     kill(eventPlayer, eventPlayer.lastAttacker)
     destroyInWorldText(getLastCreatedText())
 
