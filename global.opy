@@ -58,5 +58,5 @@ if shrinkCircle:
     
 @Rule "Declare Victory"
 @Event eachPlayer
-if len([player for player in getAllPlayers() if player.getScore() == 0]) == (getNumberOfPlayers(Team.ALL) - 1) and len(getDeadPlayers(Team.ALL)) == (getNumberOfPlayers(Team.ALL) - 1) and getNumberOfPlayers(Team.ALL) > 1:
+if len([player for player in getAllPlayers() if player.getScore() <= 0]) == (getNumberOfPlayers(Team.ALL) - 1) and len(getDeadPlayers(Team.ALL)) == (getNumberOfPlayers(Team.ALL) - 1) and getNumberOfPlayers(Team.ALL) > 1:
     declarePlayerVictory(getLivingPlayers(Team.ALL)[0])
