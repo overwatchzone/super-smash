@@ -3,10 +3,10 @@
 @Rule "On Player Respawn"
 @Event eachPlayer
 if eventPlayer.isAlive():
-    eventPlayer.knockback = 0
-    createInWorldText(getAllPlayers(), "{}%".format(ceil(eventPlayer.knockback)), eventPlayer, 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_POSITION_AND_STRING, Color.WHITE, SpecVisibility.DEFAULT)
     eventPlayer.teleport(boundaryCenter)
     eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 4)
+    eventPlayer.knockback = 0
+    createInWorldText(getAllPlayers(), "{}%".format(ceil(eventPlayer.knockback)), eventPlayer, 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_POSITION_AND_STRING, Color.WHITE, SpecVisibility.DEFAULT)
     eventPlayer.setRespawnTime(9999)
 
 @Rule "On Player First Spawn"
@@ -30,14 +30,19 @@ if eventPlayer.hasSpawned():
 victim.lastAttacker = attacker
 victim.applyImpulse(vectorTowards(attacker, victim) + (Vector.UP * (victim.knockback / 100)), (victim.knockback / 10) * (eventDamage / 50), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
 victim.knockback += (eventDamage / 5)
-createEffect(getAllPlayers(), Effect.CLOUD, Color.AQUA, victim, 5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-wait(0.25, Wait.IGNORE_CONDITION)
-destroyEffect(getLastCreatedEntity())
+#createEffect(getAllPlayers(), Effect.CLOUD, Color.AQUA, victim, 5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+#wait(0.25, Wait.IGNORE_CONDITION)
+#destroyEffect(getLastCreatedEntity())
 
 @Rule "On Player Leaving Sphere"
 @Event eachPlayer
-if distance(eventPlayer, boundaryCenter) > boundaryRadius and eventPlayer.isAlive():
+if distance(eventPlayer, boundaryCenter) > boundaryRadius and eventPlayer.lastAttacker != null:
+    eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 1)
+    eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 1)
+    eventPlayer.teleport(boundaryCenter)
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     kill(eventPlayer, eventPlayer.lastAttacker)
+    eventPlayer.lastAttacker = null
     destroyInWorldText(getLastCreatedText())
 
 @Rule "Player HUD Text"
@@ -49,7 +54,7 @@ hudText(eventPlayer, "Have Drop: {}".format(eventPlayer.hasDrop), null, null, Po
 
 @Rule "After Player Dies"
 @Event playerDied
-wait(3, Wait.IGNORE_CONDITION)
+wait(1, Wait.IGNORE_CONDITION)
 victim.setScore(victim.getScore() - 1)
 if victim.getScore() > 0:
     victim.respawn()
